@@ -1,3 +1,5 @@
+
+
 // const targetDate = new Date('Aug 8, 2021');
 // const refs = {
 //     days: document.querySelector('[data-value="days"]'),
@@ -35,6 +37,11 @@
 
 
 
+
+
+
+
+
 class CountdownTimer {
     constructor({ selector, targetDate }) {
         this.targetDate = targetDate;
@@ -44,40 +51,50 @@ class CountdownTimer {
             mins: document.querySelector(`${selector} [data-value="mins]`),
             secs: document.querySelector(`${selector} [data-value="secs"]`),
         };
-        this.timerId = setInterval(this.timeToDate, 1000, this.targetDate);
+
+        // this.timerId = setInterval(this.timeToDate, 1000, this.targetDate, this.pad);
+        this.init()
     }
 
 
+    init() {
+        const timerId = setInterval(this.timeToDate, 1000)
+    }
 
-    timeToDate(targetDate) {
+    timeToDate() {
 
         const currentDate = Date.now();
-        const timeLeft = targetDate.getTime() - currentDate;
+        const timeLeft = this.targetDate.getTime() - currentDate;
         if (timeLeft < 0) {
-
             clearInterval(this.timerId);
             return
         };
 
-        const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, "0");
-        const hours = this.pad(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-        const mins = this.pad(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
-        const secs = this.pad(Math.floor((timeLeft % (1000 * 60)) / 1000));
 
-        refs.days.textContent = days;
+        const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, "0");
+        const hours = pad(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+        const mins = pad(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
+        const secs = pad(Math.floor((timeLeft % (1000 * 60)) / 1000));
+        console.log(hours);
+
+        this.refs.days.textContent = days;
         refs.hours.textContent = hours;
         refs.mins.textContent = mins;
         refs.secs.textContent = secs;
-    };
+
+
+    }
 
     pad(number) {
         return String(number).padStart(2, "0")
-    };
+    }
 }
-
-
 
 new CountdownTimer({
     selector: '#timer-1',
-    targetDate: new Date('Aug 10, 2021'),
+    targetDate: new Date('Aug 12, 2021'),
 });
+
+
+
+
